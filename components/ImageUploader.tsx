@@ -1,32 +1,9 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Vibrant } from 'node-vibrant/browser'
+import { useImageColor } from '@/hooks/useImageColor'
 
 function ImageUploader() {
-  const [colors, setColors] = useState<string[]>([])
-
-  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (!event.target.files?.length) return
-
-    const file = event.target.files[0]
-    const imgURL = URL.createObjectURL(file)
-
-    try {
-      const palette = await Vibrant.from(imgURL).getPalette()
-      const swatches = Object.values(palette)
-        .filter((swatch) => swatch !== null)
-        .slice(0, 5)
-        .map((swatch) => swatch.hex)
-
-      setColors(swatches)
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error processing image:', error.message)
-        return
-      }
-    }
-  }
+  const { colors, handleFileChange } = useImageColor()
 
   return (
     <div className="max-w-sm w-full p-8 bg-white/10 backdrop-blur-md border border-white/30 rounded-xl shadow-xl flex flex-col items-center justify-center">
