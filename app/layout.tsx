@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/app/theme-provider'
 import './globals.css'
 
 export default function RootLayout({
@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-background">
+      <body>
         <ThemeProvider
           defaultTheme="system"
           attribute="class"
