@@ -21,12 +21,9 @@ function ImageUploader() {
   }, [copiedColor])
 
   return (
-    <div className="max-w-md w-full p-8 bg-white/10 backdrop-blur-md border border-white/30 rounded-xl shadow-lg flex flex-col items-center">
+    <div className="">
       {/* Upload Button */}
-      <label
-        htmlFor="image-upload"
-        className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white font-semibold px-8 py-3 rounded-lg transition select-none"
-      >
+      <label htmlFor="image-upload" className="cursor-pointer">
         Upload Image
         <input
           type="file"
