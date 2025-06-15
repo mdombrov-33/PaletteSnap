@@ -10,12 +10,12 @@ This tool lets you upload an image and automatically extracts prominent colors. 
 
 ## Key Features
 
-- **Automatic Color Extraction:** Upload an image and get a set of extracted colors to work with.
-- **Role Assignment:** Colors are assigned meaningful roles based on luminance and contrast relationships.
-- **Real-time Color Editing:** Modify colors with color pickers; roles and previews update dynamically.
-- **Accessibility Contrast Checks:** Foreground colors are tested against the background for WCAG-compliant contrast ratios, with clear pass/fail feedback.
-- **Live Preview:** Instantly see how your palette looks in example UI components.
-- **Export Options:** Export your finalized palette in various formats.
+- **Automatic Color Extraction:** Upload an image and get a set of extracted colors to work with
+- **Role Assignment:** Colors are assigned meaningful roles based on luminance and contrast relationships
+- **Real-time Color Editing:** Modify colors with color pickers; roles and previews update dynamically
+- **Accessibility Contrast Checks:** Foreground colors are tested against the background for WCAG-compliant contrast ratios, with clear pass/fail feedback
+- **Live Preview:** Instantly see how your palette looks in example UI components
+- **Export Options:** Export your finalized palette in various formats
 
 ## How It Works (Simplified)
 
