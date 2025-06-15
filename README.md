@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Palette Editor & Accessibility Checker
 
-## Getting Started
+![Palette Editor Screenshot](./public/palette-editor.png)
 
-First, run the development server:
+A React-based interactive color palette editor that extracts colors from images and helps users create accessible, harmonious palettes for web and UI design projects.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What is this?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This tool lets you upload an image and automatically extracts prominent colors. You can tweak these colors directly through the UI to refine your palette. The system dynamically assigns semantic roles to the colors — such as **primary**, **background**, and multiple **foreground** colors — to help build balanced and accessible palettes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Automatic Color Extraction:** Upload an image and get a set of extracted colors to work with
+- **Role Assignment:** Colors are assigned meaningful roles based on luminance and contrast relationships
+- **Real-time Color Editing:** Modify colors with color pickers; roles and previews update dynamically
+- **Accessibility Contrast Checks:** Foreground colors are tested against the background for WCAG-compliant contrast ratios, with clear pass/fail feedback
+- **Live Preview:** Instantly see how your palette looks in example UI components
+- **Export Options:** Export your finalized palette in various formats
 
-## Learn More
+## How It Works (Simplified)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Extract Colors:** Upload an image to extract a raw array of hex color codes.
+2. **Assign Roles:** Colors are assigned roles based on luminance and visual prominence:
+   - **Background:** Typically the lightest or most neutral color.
+   - **Primary:** The most visually dominant or brand-appropriate color.
+   - **Foreground:** Colors selected for text and UI elements to ensure readability.
+3. **Dynamic Updates:** Tweaking any color triggers recalculation of roles to maintain harmony and accessibility.
+4. **Accessibility Checks:** Contrast ratios between foreground and background colors are computed to confirm WCAG compliance.
