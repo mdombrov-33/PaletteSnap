@@ -1,6 +1,6 @@
 'use client'
 
-import { HandleFileChangeProps } from '@/types'
+import { HandleFileChangeProps } from '@/types/types'
 import UploadButton from './UploadButton'
 
 export default function UploadSection({ handleFileChange }: HandleFileChangeProps) {

@@ -1,21 +1,38 @@
 'use client'
 
 import { useImageColor } from '@/hooks/useImageColor'
-import UploadSection from './UploadSection'
+import UploadSection from './upload/UploadSection'
+import { cn } from '@/lib/utils'
+import PaletteConfig from './config/PaletteConfig'
+import LivePreview from './config/LivePreview'
 
 export default function ColorExtractorClient() {
   const { handleFileChange, colors } = useImageColor()
 
   return (
-    <div className="flex-1 flex flex-col justify-center items-center overflow-hidden">
+    <main
+      className={cn(
+        'flex-1 flex flex-col justify-center items-center',
+        colors.length > 0 ? 'justify-start pt-10 mt-6' : 'justify-center'
+      )}
+    >
       <UploadSection handleFileChange={handleFileChange} />
 
-      {/* Temporary for debugging — replace later with conditionally revealed components */}
       {colors.length > 0 && (
-        <div className="mt-6 text-sm text-muted-foreground">
-          Extracted colors: {colors.join(', ')}
-        </div>
+        <section className="mt-44 mx-auto grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-24 w-full max-w-7xl px-4">
+          {/* Palette Config */}
+          <PaletteConfig colors={colors} />
+
+          {/* Accessibility Checks */}
+          <div>Accessibility Checks UI</div>
+
+          {/* Live Preview */}
+          <LivePreview colors={colors} />
+
+          {/* Export / Other */}
+          <div>Export / Other UI</div>
+        </section>
       )}
-    </div>
+    </main>
   )
 }

@@ -1,4 +1,4 @@
-import { HandleFileChangeProps } from '@/types'
+import { HandleFileChangeProps } from '@/types/types'
 import { Upload } from 'lucide-react'
 
 function UploadButton({ handleFileChange }: HandleFileChangeProps) {
