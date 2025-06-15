@@ -13,12 +13,6 @@ export interface FullColorRoles {
   foreground: string[] // array of 3 foreground colors
 }
 
-// This is the simplified color roles for components that need single colors
-export interface SimpleColorRoles {
-  primary: string
-  background: string
-  foreground: string
-}
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface LivePreviewProps extends FullColorRoles {}
 

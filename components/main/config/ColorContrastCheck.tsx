@@ -11,7 +11,7 @@ export function ColorContrastCheck({
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-lg font-semibold">Accessibility Check</h2>
-      <p className="max-w-md text-sm text-muted-foreground">
+      <p className="max-w-md text-sm">
         This check compares each foreground color against the background color{' '}
         <span
           className="inline-block w-6 h-6 align-middle rounded border border-border"
@@ -37,7 +37,7 @@ export function ColorContrastCheck({
               >
                 {passes ? 'Pass' : 'Fail'}
               </span>
-              <span className="text-sm text-muted-foreground">{contrast.toFixed(2)}</span>
+              <span className="text-sm">{contrast.toFixed(2)}</span>
             </div>
           )
         })}
