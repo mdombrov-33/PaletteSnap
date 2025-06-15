@@ -71,7 +71,7 @@ function LivePreview({ primary, background, foreground }: LivePreviewProps) {
           </Button>
 
           <div className="text-sm flex items-center gap-2" style={{ color: accentLabelColor }}>
-            Accent:
+            Primary:
             <Badge
               style={{
                 backgroundColor: primary,
