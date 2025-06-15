@@ -1,38 +1,89 @@
 import { ExportFormat } from '@/types/enums'
+import { FullColorRoles } from '@/types/types'
 
-export function getSnippet(format: ExportFormat, colors: string[]) {
+export function getSnippet(format: ExportFormat, colors: FullColorRoles) {
+  // Safely assign foreground colors or default empty array
+  const fg = Array.isArray(colors.foreground) ? colors.foreground : []
+
+  // Assign 3 foreground colors explicitly or fallback to empty string
+  const foreground = fg[0] ?? ''
+  const foregroundSecondary = fg[1] ?? ''
+  const foregroundTertiary = fg[2] ?? ''
+
   switch (format) {
     case ExportFormat.Tailwind:
-      const colorsObj = colors.map((c, i) => `    custom${i + 1}: '${c}'`).join(',\n')
       return `module.exports = {
   theme: {
     extend: {
       colors: {
-${colorsObj}
+        primary: '${colors.primary}',
+        background: '${colors.background}',
+        foreground: '${foreground}',
+        foregroundSecondary: '${foregroundSecondary}',
+        foregroundTertiary: '${foregroundTertiary}',
       },
     },
   },
 }
 `
+
     case ExportFormat.CSS:
-      return `:root {\n${colors.map((c, i) => `  --color-${i}: ${c};`).join('\n')}\n}`
+      return `:root {
+  --primary: ${colors.primary};
+  --background: ${colors.background};
+  --foreground: ${foreground};
+  --foreground-secondary: ${foregroundSecondary};
+  --foreground-tertiary: ${foregroundTertiary};
+}`
+
     case ExportFormat.JSON:
-      return JSON.stringify(colors, null, 2)
+      return JSON.stringify(
+        {
+          primary: colors.primary,
+          background: colors.background,
+          foreground: [foreground, foregroundSecondary, foregroundTertiary],
+        },
+        null,
+        2
+      )
+
     case ExportFormat.JS:
-      return `export const colors = [${colors.map((c) => `'${c}'`).join(', ')}];`
+      return `export const colors = {
+  primary: '${colors.primary}',
+  background: '${colors.background}',
+  foreground: ['${foreground}', '${foregroundSecondary}', '${foregroundTertiary}'],
+};`
+
     case ExportFormat.SCSS:
-      return colors.map((c, i) => `$color-${i}: ${c};`).join('\n')
+      return `$primary: ${colors.primary};
+$background: ${colors.background};
+$foreground: ${foreground};
+$foreground-secondary: ${foregroundSecondary};
+$foreground-tertiary: ${foregroundTertiary};`
+
     case ExportFormat.POSTCSS:
-      return `:root {\n${colors.map((c, i) => `  --color-${i}: ${c};`).join('\n')}\n}`
+      return `:root {
+  --primary: ${colors.primary};
+  --background: ${colors.background};
+  --foreground: ${foreground};
+  --foreground-secondary: ${foregroundSecondary};
+  --foreground-tertiary: ${foregroundTertiary};
+}`
+
     case ExportFormat.StyledComponents:
       return `import styled from 'styled-components';
 
 const Colors = styled.div\`
-${colors.map((c, i) => `  --color${i}: ${c};`).join('\n')}
+  --primary: ${colors.primary};
+  --background: ${colors.background};
+  --foreground: ${foreground};
+  --foreground-secondary: ${foregroundSecondary};
+  --foreground-tertiary: ${foregroundTertiary};
 \`;
 
 export default Colors;
 `
+
     default:
       const _exhaustiveCheck: never = format
       return _exhaustiveCheck

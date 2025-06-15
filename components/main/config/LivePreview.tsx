@@ -16,6 +16,7 @@ function LivePreview({ primary, background, foreground }: LivePreviewProps) {
   const uncheckedBgColor = isLight(background) ? '#ccc' : '#444'
   const thumbColor = isLight(primary) ? '#000' : '#fff'
 
+  const mainForeground = Array.isArray(foreground) ? foreground[0] : foreground
   const [enabled, setEnabled] = useState(false)
 
   return (
@@ -23,17 +24,17 @@ function LivePreview({ primary, background, foreground }: LivePreviewProps) {
       className="p-6 rounded-2xl shadow-xl max-w-md w-full border"
       style={{
         backgroundColor: background,
-        color: foreground,
+        color: mainForeground,
       }}
     >
       <Card className="w-full border-none shadow-none" style={{ background }}>
         <CardHeader>
-          <CardTitle style={{ color: foreground }}>Live Preview</CardTitle>
+          <CardTitle style={{ color: mainForeground }}>Live Preview</CardTitle>
         </CardHeader>
 
         <CardContent className="space-y-4">
           <div className="space-y-1">
-            <Label className="pb-2" htmlFor="name" style={{ color: foreground }}>
+            <Label className="pb-2" htmlFor="name" style={{ color: mainForeground }}>
               Your Name
             </Label>
             <Input
@@ -48,7 +49,7 @@ function LivePreview({ primary, background, foreground }: LivePreviewProps) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span style={{ color: foreground }}>Enable feature</span>
+            <span style={{ color: mainForeground }}>Enable feature</span>
             <Switch
               checked={enabled}
               onCheckedChange={(checked) => setEnabled(checked)}
