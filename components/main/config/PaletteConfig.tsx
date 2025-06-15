@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { PaletteConfigProps } from '@/types/types'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { generateRandomColor } from '@/utils/generate-random-colors'
 
 function PaletteConfig({
   colors,
@@ -15,6 +16,13 @@ function PaletteConfig({
     if (editingIndex === null) return
     const newColors = [...colors]
     newColors[editingIndex] = e.target.value
+    onChange(newColors)
+  }
+
+  const generateRandomPalette = () => {
+    const newColors = Array(colors.length)
+      .fill(null)
+      .map(() => generateRandomColor())
     onChange(newColors)
   }
 
@@ -46,6 +54,16 @@ function PaletteConfig({
           </div>
         ))}
       </div>
+      <Button
+        className="mt-4"
+        variant="default"
+        onClick={() => {
+          generateRandomPalette()
+          toast.success('Generated new random palette!')
+        }}
+      >
+        Random Palette
+      </Button>
       <Button
         className="mt-4"
         variant="secondary"
