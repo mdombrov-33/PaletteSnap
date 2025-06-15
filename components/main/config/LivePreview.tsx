@@ -1,5 +1,5 @@
-import { getReadableTextColor, getSmartColorRoles, isLight } from '@/utils/color-utils'
-import { PaletteConfigProps } from '@/types/types'
+import { getReadableTextColor, isLight } from '@/utils/color-utils'
+import { LivePreviewProps } from '@/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -8,8 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
 
-function LivePreview({ colors }: PaletteConfigProps) {
-  const { background, foreground, primary } = getSmartColorRoles(colors)
+function LivePreview({ primary, background, foreground }: LivePreviewProps) {
   const buttonTextColor = getReadableTextColor(primary)
   const badgeTextColor = getReadableTextColor(primary)
   const accentLabelColor = getReadableTextColor(background)
@@ -64,6 +63,7 @@ function LivePreview({ colors }: PaletteConfigProps) {
             style={{
               backgroundColor: primary,
               color: buttonTextColor,
+              fontWeight: 400,
             }}
           >
             Save Changes
@@ -75,6 +75,7 @@ function LivePreview({ colors }: PaletteConfigProps) {
               style={{
                 backgroundColor: primary,
                 color: badgeTextColor,
+                fontWeight: 400, // normal weight
               }}
             >
               {primary}

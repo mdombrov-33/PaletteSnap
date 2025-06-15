@@ -1,5 +1,5 @@
-// tailwind.config.js
 module.exports = {
+  safelist: ['text-success', 'text-destructive'],
   theme: {
     extend: {
       colors: {

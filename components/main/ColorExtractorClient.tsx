@@ -6,9 +6,12 @@ import { cn } from '@/lib/utils'
 import PaletteConfig from './config/PaletteConfig'
 import LivePreview from './config/LivePreview'
 import ExportConfig from './config/ExportConfig'
+import { ColorContrastCheck } from './config/ColorContrastCheck'
+import { getSmartColorRoles } from '@/utils/color-utils'
 
 export default function ColorExtractorClient() {
   const { handleFileChange, colors } = useImageColor()
+  const { background, foreground, primary } = getSmartColorRoles(colors)
 
   return (
     <main
@@ -20,24 +23,20 @@ export default function ColorExtractorClient() {
       <UploadSection handleFileChange={handleFileChange} />
 
       {colors.length > 0 && (
-        <section className="mt-44 mx-auto grid grid-cols-1 lg:grid-cols-10 gap-10 lg:gap-24 w-full max-w-7xl px-4">
-          {/* Palette Config */}
-          <div className="col-span-2">
+        <section className="mt-36 mx-auto w-full max-w-7xl px-4 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8">
+          <div className="lg:col-span-2">
             <PaletteConfig colors={colors} />
           </div>
 
-          {/* Accessibility Checks */}
-          <div className="col-span-1">
-            <div>Accessibility Checks UI</div>
+          <div className="lg:col-span-2">
+            <ColorContrastCheck backgroundColor={background} colors={colors} />
           </div>
 
-          {/* Live Preview */}
-          <div className="col-span-3">
-            <LivePreview colors={colors} />
+          <div className="lg:col-span-3">
+            <LivePreview primary={primary} foreground={foreground} background={background} />
           </div>
 
-          {/* Export */}
-          <div className="col-span-4">
+          <div className="lg:col-span-5">
             <ExportConfig colors={colors} />
           </div>
         </section>
