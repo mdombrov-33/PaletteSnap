@@ -29,7 +29,8 @@ function PaletteConfig({
   return (
     <div className="flex flex-col">
       <h2 className="mb-4 text-lg font-semibold">Palette Config</h2>
-      <p className="text-sm text-muted-foreground italic">
+      <p className="text-sm">Click to change colors</p>
+      <p className="text-sm mt-2 italic">
         Changing any color will automatically update the assigned roles (primary, background, etc.).
       </p>
       <div className="flex flex-wrap gap-1 mt-4">
