@@ -2,7 +2,7 @@ export enum ExportFormat {
   Tailwind = 'Tailwind',
   CSS = 'CSS',
   JSON = 'JSON',
-  JS = 'JS Object',
+  JS = 'JavaScript',
   SCSS = 'SCSS',
   POSTCSS = 'PostCSS',
   StyledComponents = 'Styled Components',

@@ -1,8 +1,10 @@
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { ExportFormat } from '@/types/enums'
 import { PaletteConfigProps } from '@/types/types'
 import { getSnippet } from '@/utils/get-export-snippet'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 function ExportConfig({ colors }: PaletteConfigProps) {
   const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(ExportFormat.Tailwind)
@@ -33,6 +35,15 @@ function ExportConfig({ colors }: PaletteConfigProps) {
       <pre className="bg-background border border-border text-foreground text-sm p-4 rounded-md overflow-auto">
         <code className="whitespace-pre-wrap break-words">{snippet}</code>
       </pre>
+      <Button
+        className="w-full mt-2"
+        onClick={() => {
+          navigator.clipboard.writeText(snippet)
+          toast.success('Copied!')
+        }}
+      >
+        Copy Snippet
+      </Button>
     </div>
   )
 }

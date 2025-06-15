@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@/app/theme-provider'
 import './globals.css'
+import { Toaster } from 'sonner'
 
 export default function RootLayout({
   children,
@@ -16,6 +17,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
