@@ -5,6 +5,7 @@ import UploadSection from './upload/UploadSection'
 import { cn } from '@/lib/utils'
 import PaletteConfig from './config/PaletteConfig'
 import LivePreview from './config/LivePreview'
+import ExportConfig from './config/ExportConfig'
 
 export default function ColorExtractorClient() {
   const { handleFileChange, colors } = useImageColor()
@@ -19,18 +20,26 @@ export default function ColorExtractorClient() {
       <UploadSection handleFileChange={handleFileChange} />
 
       {colors.length > 0 && (
-        <section className="mt-44 mx-auto grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-24 w-full max-w-7xl px-4">
+        <section className="mt-44 mx-auto grid grid-cols-1 lg:grid-cols-10 gap-10 lg:gap-24 w-full max-w-7xl px-4">
           {/* Palette Config */}
-          <PaletteConfig colors={colors} />
+          <div className="col-span-2">
+            <PaletteConfig colors={colors} />
+          </div>
 
           {/* Accessibility Checks */}
-          <div>Accessibility Checks UI</div>
+          <div className="col-span-1">
+            <div>Accessibility Checks UI</div>
+          </div>
 
           {/* Live Preview */}
-          <LivePreview colors={colors} />
+          <div className="col-span-3">
+            <LivePreview colors={colors} />
+          </div>
 
-          {/* Export / Other */}
-          <div>Export / Other UI</div>
+          {/* Export */}
+          <div className="col-span-4">
+            <ExportConfig />
+          </div>
         </section>
       )}
     </main>
