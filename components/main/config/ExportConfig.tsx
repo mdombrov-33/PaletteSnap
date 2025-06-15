@@ -1,10 +1,13 @@
 import { cn } from '@/lib/utils'
 import { ExportFormat } from '@/types/enums'
+import { PaletteConfigProps } from '@/types/types'
+import { getSnippet } from '@/utils/get-export-snippet'
 import { useState } from 'react'
 
-function ExportConfig() {
+function ExportConfig({ colors }: PaletteConfigProps) {
   const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(ExportFormat.Tailwind)
   const formats = Object.values(ExportFormat)
+  const snippet = getSnippet(selectedFormat, colors)
 
   return (
     <div className="w-full lg:col-span-2 border border-border rounded-xl p-4 space-y-4 bg-card text-card-foreground">
@@ -28,7 +31,7 @@ function ExportConfig() {
 
       {/* Snippet Box */}
       <pre className="bg-background border border-border text-foreground text-sm p-4 rounded-md overflow-auto">
-        {selectedFormat} snippet goes here...
+        <code className="whitespace-pre-wrap break-words">{snippet}</code>
       </pre>
     </div>
   )

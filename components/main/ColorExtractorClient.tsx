@@ -38,7 +38,7 @@ export default function ColorExtractorClient() {
 
           {/* Export */}
           <div className="col-span-4">
-            <ExportConfig />
+            <ExportConfig colors={colors} />
           </div>
         </section>
       )}
