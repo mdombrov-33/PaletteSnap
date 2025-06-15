@@ -5,12 +5,23 @@ import { PaletteConfigProps } from '@/types/types'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { generateRandomColor } from '@/utils/generate-random-colors'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogClose,
+} from '@/components/ui/dialog'
+import { FaSpinner } from 'react-icons/fa'
 
 function PaletteConfig({
   colors,
   onChange,
 }: PaletteConfigProps & { onChange: (colors: string[]) => void }) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [colorNames, setColorNames] = useState<string[]>([])
 
   const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editingIndex === null) return
@@ -24,6 +35,33 @@ function PaletteConfig({
       .fill(null)
       .map(() => generateRandomColor())
     onChange(newColors)
+  }
+
+  async function generateColorNames(colors: string[]) {
+    setIsLoading(true)
+    setIsError(false)
+    try {
+      const response = await fetch('/api/name-colors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ colors }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch color names')
+      }
+      const data = await response.json()
+      setColorNames(data.color_names)
+      return data
+    } catch (error) {
+      console.error('Error generating color names:', error)
+      setIsError(true)
+      toast.error('Failed to generate color names')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -64,6 +102,16 @@ function PaletteConfig({
         }}
       >
         Random Palette
+      </Button>
+      <Button
+        className="mt-4"
+        variant="secondary"
+        disabled={isLoading}
+        onClick={() => {
+          generateColorNames(colors)
+        }}
+      >
+        {isLoading ? <FaSpinner className="animate-spin" /> : 'Generate Color Names'}
       </Button>
       <Button
         className="mt-4"
