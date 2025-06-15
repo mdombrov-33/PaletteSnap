@@ -36,10 +36,11 @@ function ExportConfig({ roles }: { roles: FullColorRoles }) {
         <code className="whitespace-pre-wrap break-words">{snippet}</code>
       </pre>
       <Button
+        variant="default"
         className="w-full mt-2"
         onClick={() => {
           navigator.clipboard.writeText(snippet)
-          toast.success('Copied!')
+          toast.success('Copied snippet!')
         }}
       >
         Copy Snippet

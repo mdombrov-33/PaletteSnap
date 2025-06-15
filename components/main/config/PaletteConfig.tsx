@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { PaletteConfigProps } from '@/types/types'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
 
 function PaletteConfig({
   colors,
@@ -44,6 +46,17 @@ function PaletteConfig({
           </div>
         ))}
       </div>
+      <Button
+        className="mt-4"
+        variant="secondary"
+        onClick={() => {
+          const snippet = colors.join('\n')
+          navigator.clipboard.writeText(snippet)
+          toast.success('Copied all colors!')
+        }}
+      >
+        Copy All Colors
+      </Button>
     </div>
   )
 }
