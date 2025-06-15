@@ -21,3 +21,9 @@ export interface ColorContrastCheckProps extends PaletteConfigProps {
   backgroundColor?: string
   minContrast?: number
 }
+
+export interface ColorNamesModalProps {
+  colors: string[]
+  isOpen: boolean
+  onClose: () => void
+}
