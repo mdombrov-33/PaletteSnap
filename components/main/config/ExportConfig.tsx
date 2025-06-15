@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import { ExportFormat } from '@/types/enums'
 import { FullColorRoles } from '@/types/types'
 import { getSnippet } from '@/utils/get-export-snippet'
@@ -16,18 +15,14 @@ function ExportConfig({ roles }: { roles: FullColorRoles }) {
       {/* Tabs */}
       <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-2 px-2">
         {formats.map((format) => (
-          <button
+          <Button
             key={format}
             onClick={() => setSelectedFormat(format)}
-            className={cn(
-              'px-3 py-1.5 rounded-md text-sm font-medium border border-border whitespace-nowrap transition-colors',
-              format === selectedFormat
-                ? 'bg-primary text-primary-foreground border-primary'
-                : 'bg-background text-foreground hover:bg-secondary/20'
-            )}
+            variant={format === selectedFormat ? 'default' : 'outline'}
+            className="px-3 py-1.5 text-sm font-medium whitespace-nowrap"
           >
             {format}
-          </button>
+          </Button>
         ))}
       </div>
 

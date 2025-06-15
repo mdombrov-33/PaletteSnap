@@ -67,7 +67,7 @@ function PaletteConfig({
           : null}
       </div>
 
-      <Button className="mt-4" variant="default" onClick={generateRandomPalette}>
+      <Button className="mt-4" variant="secondary" onClick={generateRandomPalette}>
         Random Palette
       </Button>
 
