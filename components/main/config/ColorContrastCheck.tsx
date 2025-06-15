@@ -1,6 +1,7 @@
 import React from 'react'
 import { getContrastRatio } from '@/utils/color-contrast/color-contrast'
 import { cn } from '@/lib/utils'
+import { AlertTriangle } from 'lucide-react'
 
 export function ColorContrastCheck({
   colors,
@@ -42,7 +43,13 @@ export function ColorContrastCheck({
               {/* Spacer */}
               <div />
               {/* Status */}
-              <div className={cn(passes ? 'text-green-600' : 'text-red-600', 'font-semibold')}>
+              <div
+                className={cn(
+                  'flex items-center gap-2 font-semibold',
+                  passes ? 'text-green-600' : 'text-red-600'
+                )}
+              >
+                {!passes && <AlertTriangle className="w-4 h-4" aria-hidden />}
                 {passes ? 'Pass' : 'Fail'} ({contrast.toFixed(2)})
               </div>
             </React.Fragment>
