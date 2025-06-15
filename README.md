@@ -2,7 +2,7 @@
 
 ![Palette Editor Screenshot](./public/palette-editor.png)
 
-A React-based interactive color palette editor that extracts colors from images and helps users create accessible, harmonious palettes for web and UI design projects.
+Next.js-based interactive color palette editor that extracts colors from images and helps users create accessible, harmonious palettes for web and UI design projects.
 
 ## What is this?
 
