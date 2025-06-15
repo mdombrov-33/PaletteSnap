@@ -1,3 +1,5 @@
+'use client'
+
 import { getReadableTextColor, isLight } from '@/utils/color-utils'
 import { LivePreviewProps } from '@/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -57,6 +59,12 @@ function LivePreview({ primary, background, foreground }: LivePreviewProps) {
               uncheckedBgColor={uncheckedBgColor}
               thumbColor={thumbColor}
             />
+          </div>
+
+          <div className="space-y-1">
+            <p style={{ color: foreground[0] }}>This is primary text</p>
+            <p style={{ color: foreground[1] }}>This is secondary text</p>
+            <p style={{ color: foreground[2], fontStyle: 'italic' }}>This is muted/help text</p>
           </div>
 
           <Button

@@ -10,18 +10,24 @@ export function hexToLuminance(hex: string): number {
 
   return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2]
 }
+
 export function getSmartColorRoles(colors: string[]): FullColorRoles {
-  // Sort colors by luminance descending (brightest first)
   const sorted = [...colors].sort((a, b) => hexToLuminance(b) - hexToLuminance(a))
 
-  // Pick top 3 brightest for foreground
-  const foreground = sorted.slice(0, 3)
-
-  // Pick middle for primary
-  const primary = sorted[Math.floor(sorted.length / 2)] || '#1e40af'
-
-  // Pick darkest for background
+  // Pick darkest as background
   const background = sorted[sorted.length - 1] || '#ffffff'
+
+  // Remove background from pool
+  const remaining = sorted.filter((c) => c !== background)
+
+  // Pick primary as middle luminance from remaining
+  const primary = remaining[Math.floor(remaining.length / 2)] || '#1e40af'
+
+  // Remove primary from pool
+  const withoutPrimary = remaining.filter((c) => c !== primary)
+
+  // Pick top 3 brightest for foreground (excluding primary & background)
+  const foreground = withoutPrimary.slice(0, 3)
 
   return { primary, background, foreground }
 }

@@ -1,17 +1,15 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { ExportFormat } from '@/types/enums'
-import { PaletteConfigProps } from '@/types/types'
-import { getSmartColorRoles } from '@/utils/color-utils'
+import { FullColorRoles } from '@/types/types'
 import { getSnippet } from '@/utils/get-export-snippet'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-function ExportConfig({ colors }: PaletteConfigProps) {
+function ExportConfig({ roles }: { roles: FullColorRoles }) {
   const [selectedFormat, setSelectedFormat] = useState<ExportFormat>(ExportFormat.Tailwind)
   const formats = Object.values(ExportFormat)
-  const colorObj = getSmartColorRoles(colors)
-  const snippet = getSnippet(selectedFormat, colorObj)
+  const snippet = getSnippet(selectedFormat, roles)
 
   return (
     <div className="w-full lg:col-span-2 border border-border rounded-xl p-4 space-y-4 bg-card text-card-foreground">

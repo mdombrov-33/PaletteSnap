@@ -1,4 +1,4 @@
-import ColorExtractorClient from '@/components/main/ColorExtractorClient'
+import ColorExtractorClient from '@/components/main/PaletteEditorPage'
 import Footer from '@/components/footer/Footer'
 import Topbar from '@/components/topbar/Topbar'
 

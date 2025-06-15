@@ -4,6 +4,7 @@ export interface HandleFileChangeProps {
 
 export interface PaletteConfigProps {
   colors: string[]
+  onChange?: (colors: string[]) => void
 }
 
 // This is the raw full color roles with multiple foregrounds as array
