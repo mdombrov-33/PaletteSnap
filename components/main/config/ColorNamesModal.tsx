@@ -48,15 +48,8 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
     fetchColorNames()
   }, [isOpen, colors])
 
-  // **Important fix:** only call onClose when dialog is closing (open = false)
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      onClose()
-    }
-  }
-
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Color Names</DialogTitle>
