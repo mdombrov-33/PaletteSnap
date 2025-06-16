@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogClose,
+  DialogDescription,
 } from '@/components/ui/dialog'
 import { FaSpinner } from 'react-icons/fa'
 import { toast } from 'sonner'
@@ -53,6 +54,10 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Color Names</DialogTitle>
+          <DialogDescription>
+            This tool uses AI to generate descriptive names for your colors. It may take a few
+            seconds depending on the number of colors.
+          </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
