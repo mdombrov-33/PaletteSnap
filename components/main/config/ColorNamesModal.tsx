@@ -1,12 +1,8 @@
 'use client'
 
-import { useState, Fragment } from 'react'
-import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
-import { FaSpinner } from 'react-icons/fa'
-import { toast } from 'sonner'
-import { ColorNamesModalProps } from '@/types/types'
+import { useState } from 'react'
 
-export function ColorNamesModal({ colors, onClose }: Omit<ColorNamesModalProps, 'isOpen'>) {
+export function ColorNamesModal({ colors, onClose }: { colors: string[]; onClose: () => void }) {
   const [colorNames, setColorNames] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -32,97 +28,92 @@ export function ColorNamesModal({ colors, onClose }: Omit<ColorNamesModalProps, 
     } catch (error) {
       console.error('Color name fetch failed:', error)
       setIsError(true)
-      toast.error('Failed to generate color names')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <Transition show={true} appear as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose} static>
-        <TransitionChild
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-80"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-80"
-          leaveTo="opacity-0"
+    <>
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 z-50"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Modal panel */}
+      <div
+        className="fixed inset-0 flex items-center justify-center z-50 p-4"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div
+          className="bg-white rounded-md p-6 max-w-lg w-full shadow-lg"
+          style={{ backgroundColor: 'var(--background)', backgroundImage: 'none' }}
         >
-          <div className="fixed inset-0 bg-background/60" aria-hidden="true" />
-        </TransitionChild>
+          <h2 className="text-lg font-semibold mb-4 text-card-foreground">Color Names</h2>
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <TransitionChild
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <DialogPanel
-                className="w-full max-w-lg transform overflow-hidden rounded-md p-6 text-left align-middle shadow-xl ring-1 ring-border transition-all"
-                style={{
-                  backgroundColor: 'var(--background)',
-                  backgroundImage: 'none',
-                }}
+          <button
+            onClick={fetchColorNames}
+            disabled={isLoading}
+            className="text-primary underline hover:text-secondary text-sm focus:outline-none mb-4"
+          >
+            {isLoading ? 'Generating...' : 'Generate Color Names'}
+          </button>
+
+          {isLoading ? (
+            <div className="flex items-center justify-center h-32">
+              <svg
+                className="animate-spin text-primary w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-label="Loading spinner"
               >
-                <DialogTitle className="text-lg font-semibold text-card-foreground">
-                  Color Names
-                </DialogTitle>
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                />
+              </svg>
+            </div>
+          ) : isError ? (
+            <p className="text-destructive text-sm text-center mt-4">
+              Failed to fetch color names.
+            </p>
+          ) : colorNames.length > 0 ? (
+            <ul className="space-y-2 max-h-60 overflow-y-auto text-card-foreground">
+              {colorNames.map((name, i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <span
+                    className="inline-block w-5 h-5 rounded border border-border"
+                    style={{ backgroundColor: colors[i] }}
+                    aria-label={`Color swatch for ${name}`}
+                  />
+                  <span>{name}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
 
-                <div className="mt-4">
-                  <button
-                    onClick={fetchColorNames}
-                    disabled={isLoading}
-                    className="text-primary underline hover:text-secondary text-sm focus:outline-none"
-                  >
-                    {isLoading ? 'Generating...' : 'Generate Color Names'}
-                  </button>
-                </div>
-
-                {isLoading ? (
-                  <div className="flex items-center justify-center h-32">
-                    <FaSpinner
-                      className="animate-spin text-xl text-primary"
-                      aria-label="Loading spinner"
-                    />
-                  </div>
-                ) : isError ? (
-                  <p className="text-destructive text-sm text-center mt-4">
-                    Failed to fetch color names.
-                  </p>
-                ) : colorNames.length > 0 ? (
-                  <ul className="space-y-2 mt-4 max-h-60 overflow-y-auto text-card-foreground">
-                    {colorNames.map((name, i) => (
-                      <li key={i} className="flex items-center gap-2">
-                        <span
-                          className="inline-block w-5 h-5 rounded border border-border"
-                          style={{ backgroundColor: colors[i] }}
-                          aria-label={`Color swatch for ${name}`}
-                        />
-                        <span>{name}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="mt-6 w-full text-sm underline text-primary hover:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
-                >
-                  Close
-                </button>
-              </DialogPanel>
-            </TransitionChild>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="mt-6 w-full text-sm underline text-primary hover:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+          >
+            Close
+          </button>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </>
   )
 }
