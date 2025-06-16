@@ -119,6 +119,6 @@ async def name_colors(color_list: ColorList):
 
 
 # Ping route to check if server is running
-@app.get("/ping")
+@app.head("/ping")
 async def ping():
-    return {"message": "Server is running!"}
+    return {}
