@@ -1,13 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
-} from '@/components/ui/dialog'
+import { useEffect, useState, Fragment } from 'react'
+import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { FaSpinner } from 'react-icons/fa'
 import { toast } from 'sonner'
 import { ColorNamesModalProps } from '@/types/types'
@@ -49,38 +43,78 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
   }, [isOpen, colors])
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Color Names</DialogTitle>
-        </DialogHeader>
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        {/* Overlay with your background color at 80% opacity */}
+        <TransitionChild
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-80"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-80"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-background/60" aria-hidden="true" />
+        </TransitionChild>
 
-        {isLoading ? (
-          <div className="flex items-center justify-center h-32">
-            <FaSpinner className="animate-spin text-xl" />
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <TransitionChild
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <DialogPanel
+                className="w-full max-w-lg transform overflow-hidden rounded-md p-6 text-left align-middle shadow-xl ring-1 ring-border transition-all"
+                style={{ backgroundColor: 'var(--background)', backgroundImage: 'none' }}
+              >
+                <DialogTitle className="text-lg font-semibold text-card-foreground">
+                  Color Names
+                </DialogTitle>
+
+                {isLoading ? (
+                  <div className="flex items-center justify-center h-32">
+                    <FaSpinner
+                      className="animate-spin text-xl text-primary"
+                      aria-label="Loading spinner"
+                    />
+                  </div>
+                ) : isError ? (
+                  <p className="text-destructive text-sm text-center mt-4">
+                    Failed to fetch color names.
+                  </p>
+                ) : (
+                  <ul className="space-y-2 mt-4 max-h-60 overflow-y-auto text-card-foreground">
+                    {colorNames.map((name, i) => (
+                      <li key={i} className="flex items-center gap-2">
+                        <span
+                          className="inline-block w-5 h-5 rounded border border-border"
+                          style={{ backgroundColor: colors[i] }}
+                          aria-label={`Color swatch for ${name}`}
+                        />
+                        <span>{name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => onClose()}
+                  className="mt-6 w-full text-sm underline text-primary hover:text-secondary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+                >
+                  Close
+                </button>
+              </DialogPanel>
+            </TransitionChild>
           </div>
-        ) : isError ? (
-          <p className="text-red-500 text-sm text-center">Failed to fetch color names.</p>
-        ) : (
-          <ul className="space-y-2 mt-4">
-            {colorNames.map((name, i) => (
-              <li key={i} className="flex items-center gap-2">
-                <span
-                  className="inline-block w-4 h-4 rounded border"
-                  style={{ backgroundColor: colors[i] }}
-                />
-                <span>{name}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <DialogClose asChild>
-          <button className="mt-6 w-full text-sm text-muted-foreground underline hover:text-primary">
-            Close
-          </button>
-        </DialogClose>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </Dialog>
+    </Transition>
   )
 }
