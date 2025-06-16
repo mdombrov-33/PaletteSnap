@@ -46,11 +46,11 @@ Let AI name your palette colors with style. No more “blue-500” — how about
 
 1. **Upload** an image — we extract its most prominent colors.  
 2. **Role Assignment** — Colors are analyzed and assigned based on contrast and luminance:  
-   - `background`: light/neutral base  
+   - `background`: lightest/darkest/most neutral color 
    - `primary`: dominant or accent color  
    - `foreground`: multiple text/UI-friendly values  
 3. **User Tweak Zone** — Adjust any role and the rest of the system recalibrates.  
-4. **Live Accessibility Check** — Realtime WCAG AA/AAA contrast checks for all foregrounds.  
+4. **Live Accessibility Check** — Realtime WCAG AA/AAA contrast checks for primary and all foregrounds.  
 5. **Export & Ship** — Grab code snippets and paste into your project.
 
 ---
