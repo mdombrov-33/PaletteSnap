@@ -13,10 +13,13 @@ load_dotenv()
 # Initialize FastAPI app
 app = FastAPI()
 
-# Enable CORS (we allow all origins for simplicity here — tweak if needed)
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+     allow_origins=[
+        "http://localhost:3000",           
+        "https://palette-snap-rho.vercel.app"  
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
