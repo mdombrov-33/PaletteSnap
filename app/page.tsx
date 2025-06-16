@@ -6,9 +6,9 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col">
       {/* Top bar */}
-      <div className="shrink-0">
+      <nav className="shrink-0">
         <Topbar />
-      </div>
+      </nav>
 
       {/* Main content */}
       <ColorExtractorClient />

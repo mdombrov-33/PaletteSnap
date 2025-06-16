@@ -2,6 +2,7 @@ import React from 'react'
 import { getContrastRatio } from '@/utils/color-contrast/color-contrast'
 import { cn } from '@/lib/utils'
 import { AlertTriangle } from 'lucide-react'
+import ColorNamesTest from './ColorNamesTest'
 
 function ColorContrastCheck({
   colors,
@@ -25,6 +26,7 @@ function ColorContrastCheck({
         to ensure sufficient contrast for readability. Colors with a contrast ratio of at least{' '}
         <strong>{minContrast}</strong> pass the WCAG AA standard for normal text.
       </p>
+      <ColorNamesTest />
       <div className="grid grid-cols-[auto_1fr_auto] gap-x-4 gap-y-3 items-center">
         {colors.map(({ label, color }, i) => {
           const contrast = getContrastRatio(color, backgroundColor)

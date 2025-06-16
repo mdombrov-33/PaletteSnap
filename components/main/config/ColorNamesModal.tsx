@@ -21,6 +21,7 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
   console.log('[ColorNamesModal] Rendered', { isOpen, colorNames })
 
   useEffect(() => {
+    console.log('ColorNamesModal colors:', colors)
     if (!isOpen || !Array.isArray(colors) || colors.length === 0) return
 
     async function fetchColorNames() {
@@ -37,7 +38,9 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
 
         if (!res.ok) throw new Error('Failed to fetch color names')
 
+        console.log('Fetching color names for colors:', colors)
         const data = await res.json()
+        console.log('API response data:', data)
         setColorNames(data.color_names)
       } catch (error) {
         console.error('Color name fetch failed:', error)
