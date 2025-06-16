@@ -45,7 +45,6 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* Overlay with your background color at 80% opacity */}
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
