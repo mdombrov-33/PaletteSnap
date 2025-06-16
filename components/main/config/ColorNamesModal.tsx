@@ -39,7 +39,7 @@ export function ColorNamesModal({ colors, onClose }: Omit<ColorNamesModalProps, 
   }
 
   return (
-    <Transition appear as={Fragment}>
+    <Transition show={true} appear as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose} static>
         <TransitionChild
           as={Fragment}
