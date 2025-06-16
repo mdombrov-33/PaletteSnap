@@ -49,7 +49,7 @@ function PaletteEditorPage() {
       <UploadSection handleFileChange={handleFileChange} />
 
       {rawColors.length > 0 && (
-        <section className="md:mt-22 mt-20 mx-auto w-full max-w-7xl px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section className="md:mt-16 mt-20 mx-auto w-full max-w-7xl px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-2">
             <PaletteConfig colors={rawColors} onChange={setRawColors} />
           </div>

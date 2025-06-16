@@ -2,30 +2,37 @@ import { ExportFormat } from '@/types/enums'
 import { FullColorRoles } from '@/types/types'
 
 export function getSnippet(format: ExportFormat, colors: FullColorRoles) {
-  // Safely assign foreground colors or default empty array
   const fg = Array.isArray(colors.foreground) ? colors.foreground : []
-
-  // Assign 3 foreground colors explicitly or fallback to empty string
   const foreground = fg[0] ?? ''
   const foregroundSecondary = fg[1] ?? ''
   const foregroundTertiary = fg[2] ?? ''
 
   switch (format) {
     case ExportFormat.Tailwind:
-      return `module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        primary: '${colors.primary}',
-        background: '${colors.background}',
-        foreground: '${foreground}',
-        foregroundSecondary: '${foregroundSecondary}',
-        foregroundTertiary: '${foregroundTertiary}',
-      },
-    },
-  },
-}
-`
+      return `module.exports={theme:{extend:{colors:{
+  primary:'${colors.primary}',
+  background:'${colors.background}',
+  foreground:'${foreground}',
+  foregroundSecondary:'${foregroundSecondary}',
+  foregroundTertiary:'${foregroundTertiary}'
+}}}}`
+
+    case ExportFormat.TailwindCSSVars:
+      return `module.exports={theme:{extend:{colors:{
+  primary:'var(--primary)',
+  background:'var(--background)',
+  foreground:'var(--foreground)',
+  foregroundSecondary:'var(--foreground-secondary)',
+  foregroundTertiary:'var(--foreground-tertiary)'
+}}}}
+
+:root {
+  --primary: ${colors.primary};
+  --background: ${colors.background};
+  --foreground: ${foreground};
+  --foreground-secondary: ${foregroundSecondary};
+  --foreground-tertiary: ${foregroundTertiary};
+}`
 
     case ExportFormat.CSS:
       return `:root {

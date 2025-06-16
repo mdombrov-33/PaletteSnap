@@ -1,5 +1,6 @@
 export enum ExportFormat {
-  Tailwind = 'Tailwind',
+  Tailwind = 'Tailwind hex',
+  TailwindCSSVars = 'Tailwind CSS Variables',
   CSS = 'CSS',
   JSON = 'JSON',
   JS = 'JavaScript',
