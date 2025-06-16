@@ -3,7 +3,7 @@ import { getContrastRatio } from '@/utils/color-contrast/color-contrast'
 import { cn } from '@/lib/utils'
 import { AlertTriangle } from 'lucide-react'
 
-export function ColorContrastCheck({
+function ColorContrastCheck({
   colors,
   backgroundColor = '#ffffff',
   minContrast = 4.5,
@@ -59,3 +59,5 @@ export function ColorContrastCheck({
     </div>
   )
 }
+
+export default ColorContrastCheck

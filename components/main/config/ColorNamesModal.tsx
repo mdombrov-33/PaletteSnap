@@ -12,7 +12,7 @@ import { FaSpinner } from 'react-icons/fa'
 import { toast } from 'sonner'
 import { ColorNamesModalProps } from '@/types/types'
 
-export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
+function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
   const [colorNames, setColorNames] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -84,3 +84,5 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
     </Dialog>
   )
 }
+
+export default ColorNamesModal
