@@ -116,3 +116,9 @@ async def name_colors(color_list: ColorList):
 
     # Return result as JSON
     return {"color_names": color_names}
+
+
+# Ping route to check if server is running
+@app.get("/ping")
+async def ping():
+    return {"message": "Server is running!"}
