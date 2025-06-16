@@ -1,4 +1,4 @@
-# Palette Editor & Accessibility Checker
+# PaletteSnap
 
 ![Palette Editor Screenshot](./public/palette-editor.png)
 
