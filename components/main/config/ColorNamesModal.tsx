@@ -106,7 +106,7 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
                 <button
                   type="button"
                   onClick={() => onClose()}
-                  className="mt-6 w-full text-sm underline text-primary hover:text-secondary hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+                  className="mt-6 w-full text-sm underline text-primary hover:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
                 >
                   Close
                 </button>
