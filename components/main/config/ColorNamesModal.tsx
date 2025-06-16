@@ -18,6 +18,8 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
+  console.log('[ColorNamesModal] Rendered', { isOpen, colorNames })
+
   useEffect(() => {
     if (!isOpen || !Array.isArray(colors) || colors.length === 0) return
 
@@ -52,6 +54,10 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
+        {(() => {
+          console.log('Rendered')
+          return null
+        })()}
         <DialogHeader>
           <DialogTitle>Color Names</DialogTitle>
           <DialogDescription>
