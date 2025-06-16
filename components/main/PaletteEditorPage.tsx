@@ -49,27 +49,25 @@ function PaletteEditorPage() {
       <UploadSection handleFileChange={handleFileChange} />
 
       {rawColors.length > 0 && (
-        <section className="md:mt-36 mt-20 mx-auto w-full max-w-7xl px-4 grid grid-cols-1 lg:grid-cols-14 gap-10 lg:gap-8">
+        <section className="md:mt-22 mt-20 mx-auto w-full max-w-7xl px-4 grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-2">
             <PaletteConfig colors={rawColors} onChange={setRawColors} />
           </div>
 
           <div className="lg:col-span-3 space-y-8">
-            <section>
-              <ColorContrastCheck
-                backgroundColor={colorRoles.background}
-                colors={[
-                  { label: 'Primary', color: colorRoles.primary },
-                  ...colorRoles.foreground.map((c, i) => ({
-                    label: `Foreground ${i + 1}`,
-                    color: c,
-                  })),
-                ]}
-              />
-            </section>
+            <ColorContrastCheck
+              backgroundColor={colorRoles.background}
+              colors={[
+                { label: 'Primary', color: colorRoles.primary },
+                ...colorRoles.foreground.map((c, i) => ({
+                  label: `Foreground ${i + 1}`,
+                  color: c,
+                })),
+              ]}
+            />
           </div>
 
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3">
             <LivePreview
               primary={colorRoles.primary}
               foreground={colorRoles.foreground}
@@ -77,8 +75,7 @@ function PaletteEditorPage() {
             />
           </div>
 
-          <div className="lg:col-span-5">
-            {/* Pass roles, not rawColors, to avoid recalculation inside ExportConfig */}
+          <div className="lg:col-span-4">
             <ExportConfig roles={colorRoles} />
           </div>
         </section>
