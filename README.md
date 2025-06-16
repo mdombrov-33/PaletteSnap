@@ -1,28 +1,68 @@
-# PaletteSnap
+# 🎨 PaletteSnap &nbsp;![Vercel](https://img.shields.io/badge/Powered%20by-Vercel-black?logo=vercel) ![Next.js](https://img.shields.io/badge/Built%20with-Next.js-black?logo=next.js)
 
 ![Palette Editor Screenshot](./public/palette-editor.png)
 
-Next.js-based interactive color palette editor that extracts colors from images and helps users create accessible, harmonious palettes for web and UI design projects.
+## ✨ What is PaletteSnap?
 
-## What is this?
+**PaletteSnap** is an color palette editor that extracts prominent colors from any image and helps you build clean, accessible palettes for web and UI design.
 
-This tool lets you upload an image and automatically extracts prominent colors. You can tweak these colors directly through the UI to refine your palette. The system dynamically assigns semantic roles to the colors — such as **primary**, **background**, and multiple **foreground** colors — to help build balanced and accessible palettes.
+Use it to:  
+- 🎯 Pick a solid palette from a photo, game screenshot, or branding image  
+- 🎨 Preview your palette on UI components  
+- 🧠 Get AI-generated creative color names  
+- ♿ Ensure contrast accessibility  
+- 🚀 Export your palette in dev-friendly formats (Tailwind, SCSS, JSON, etc.)
 
-## Key Features
+## ⚙️ Key Features
 
-- **Automatic Color Extraction:** Upload an image and get a set of extracted colors to work with
-- **Role Assignment:** Colors are assigned meaningful roles based on luminance and contrast relationships
-- **Real-time Color Editing:** Modify colors with color pickers; roles and previews update dynamically
-- **Accessibility Contrast Checks:** Foreground colors are tested against the background for WCAG-compliant contrast ratios, with clear pass/fail feedback
-- **Live Preview:** Instantly see how your palette looks in example UI components
-- **Export Options:** Export your finalized palette in various formats
+✅ **Automatic Color Extraction**  
+Upload any image — PaletteSnap extracts and displays its top colors.
 
-## How It Works (Simplified)
+🎨 **Semantic Role Assignment**  
+Colors are automatically assigned meaningful roles based on luminance and visual weight:  
+- `primary`, `background`, and multiple `foreground` values
 
-1. **Extract Colors:** Upload an image to extract a raw array of hex color codes.
-2. **Assign Roles:** Colors are assigned roles based on luminance and visual prominence:
-   - **Background:** Typically the lightest or most neutral color.
-   - **Primary:** The most visually dominant or brand-appropriate color.
-   - **Foreground:** Colors selected for text and UI elements to ensure readability.
-3. **Dynamic Updates:** Tweaking any color triggers recalculation of roles to maintain harmony and accessibility.
-4. **Accessibility Checks:** Contrast ratios between foreground and background colors are computed to confirm WCAG compliance.
+🛠 **Live Editing & Smart Updates**  
+Tweak colors with a color picker. The tool recalculates roles and updates previews dynamically.
+
+🔍 **Accessibility Checks**  
+Foreground colors are tested for [WCAG](https://www.w3.org/TR/WCAG21/) contrast compliance with the background. Clear pass/fail indicators help you stay accessible.
+
+👀 **Instant UI Preview**  
+See your palette in action on UI components like buttons, cards, and text blocks.
+
+📦 **Flexible Exporting**  
+Export your palette as:  
+- Tailwind config snippet  
+- SCSS/CSS variables  
+- JSON structure for any app
+
+🤖 **(Optional) AI Color Naming**  
+Let AI name your palette colors with style. No more “blue-500” — how about “Ocean Breeze”?
+
+---
+
+## 🧪 How It Works (Under the Hood)
+
+1. **Upload** an image — we extract its most prominent colors.  
+2. **Role Assignment** — Colors are analyzed and assigned based on contrast and luminance:  
+   - `background`: light/neutral base  
+   - `primary`: dominant or accent color  
+   - `foreground`: multiple text/UI-friendly values  
+3. **User Tweak Zone** — Adjust any role and the rest of the system recalibrates.  
+4. **Live Accessibility Check** — Realtime WCAG AA/AAA contrast checks for all foregrounds.  
+5. **Export & Ship** — Grab code snippets and paste into your project.
+
+---
+
+## 🧰 Tech Stack
+
+- **Frontend:** Next.js 15, Tailwind CSS, ShadCN UI  
+- **Backend (AI):** FastAPI (Python) + OpenRouter (GPT-based color name generation)  
+- **Hosting:** Vercel (frontend), Render (backend)  
+
+---
+
+## 🚀 Try it Live
+
+👉 [**palette-snap-rho.vercel.app**](https://palette-snap-rho.vercel.app/)
