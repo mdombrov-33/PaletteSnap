@@ -25,8 +25,10 @@ export default function ColorNamesTest() {
 
         const data = await res.json()
         setColorNames(data.color_names)
-      } catch (err: any) {
-        setError(err.message)
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error('Error fetching color names:', err.message)
+        }
       } finally {
         setLoading(false)
       }
