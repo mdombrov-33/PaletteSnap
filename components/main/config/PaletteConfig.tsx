@@ -5,10 +5,7 @@ import { PaletteConfigProps } from '@/types/types'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { generateRandomColor } from '@/utils/generate-random-colors'
-const ColorNamesModal = dynamic(() => import('@/components/main/config/ColorNamesModal'), {
-  ssr: false,
-})
-import dynamic from 'next/dynamic'
+import { ColorNamesModal } from '@/components/main/config/ColorNamesModal'
 
 function PaletteConfig({
   colors,
