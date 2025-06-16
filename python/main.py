@@ -4,106 +4,112 @@ from typing import List
 from dotenv import load_dotenv
 import os
 import httpx
-import re
+import json
 from fastapi.middleware.cors import CORSMiddleware
 
+# Load env variables from .env file (e.g., API keys)
 load_dotenv()
 
+# Initialize FastAPI app
 app = FastAPI()
 
+# Enable CORS (we allow all origins for simplicity here — tweak if needed)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], 
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-async def get_color_names_from_openrouter(colors: list[str]) -> str:
+# Define input data schema — we expect a list of hex colors like ["#FF0000", "#00FF00"]
+class ColorList(BaseModel):
+    colors: List[str]
+
+
+# This function sends color list to OpenRouter (GPT) and gets back creative names
+async def get_color_names_from_openrouter(colors: list[str]) -> list[str]:
+    # Read API key from env
     api_key = os.getenv("OPENROUTER_API_KEY")
     if not api_key:
         raise HTTPException(status_code=500, detail="Server misconfiguration: API key not set.")
 
-    prompt = f"Give me creative, human-readable names for these colors: {', '.join(colors)}"
+    # Construct our prompt — we force the model to ONLY return a clean JSON array
+    prompt = (
+        "You are a helpful assistant that names colors creatively. "
+        "You will receive a list of hex colors. Return only a JSON array of short, creative, human-readable color names. "
+        "No extra text, no markdown, no explanations.\n\n"
+        "Example output: [\"Sunlit Lemonade\", \"Royal Amethyst\", \"Ocean Breeze\"]\n\n"
+        f"Input colors: {', '.join(colors)}"
+    )
+
+    # OpenRouter-compatible request body
     payload = {
-        "model": "gpt-4o-mini",
+        "model": "gpt-4o-mini",  # You can change this to another model if needed
         "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 100
+        "max_tokens": 150,
     }
+
+    # Auth + content-type headers
     headers = {
         "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     }
 
     try:
+        # Send request to OpenRouter (wrapped in async httpx client)
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 json=payload,
                 headers=headers,
-                timeout=15.0  # timeout to avoid hanging requests
+                timeout=15.0  # protect yourself from hanging forever
             )
-        response.raise_for_status()
+        response.raise_for_status()  # raise if 4xx or 5xx
     except httpx.HTTPStatusError as e:
-        # 4xx or 5xx HTTP errors from OpenRouter
         raise HTTPException(
             status_code=e.response.status_code,
             detail=f"OpenRouter API error: {e.response.text}"
         )
     except httpx.RequestError as e:
-        # Network errors, timeouts, DNS failures, etc.
         raise HTTPException(
             status_code=503,
             detail=f"Failed to connect to OpenRouter API: {str(e)}"
         )
 
+    # Try to parse AI's response
     data = response.json()
-    ai_message = data.get("choices", [{}])[0].get("message", {}).get("content")
-    if not ai_message:
-        raise HTTPException(status_code=502, detail="Invalid response structure from OpenRouter API.")
-    return ai_message
+    ai_message = data.get("choices", [{}])[0].get("message", {}).get("content", "").strip()
+
+    try:
+        # Try to decode the JSON response
+        parsed = json.loads(ai_message)
+
+        # Validate it's a list of strings
+        if isinstance(parsed, list) and all(isinstance(name, str) for name in parsed):
+            return parsed
+    except json.JSONDecodeError:
+        pass  # we'll raise custom error below if parsing fails
+
+    # If response is malformed or not JSON, raise error
+    raise HTTPException(status_code=502, detail="AI returned malformed color names response.")
 
 
-def extract_color_names(ai_text: str) -> list[str]:
-    color_names = []
-    lines = ai_text.split("\n")
-    for line in lines:
-        # Improved regex: accept # followed by 3 or 6 hex digits (case-insensitive)
-        match = re.search(r"\d+\.\s+\*\*#([0-9A-Fa-f]{3,6})\*\*\s*-\s*\*\*(.+)\*\*", line)
-        if match:
-            name = match.group(2).strip()
-            color_names.append(name)
-
-    # Fallback: if nothing matched, try to parse as comma separated names
-    if not color_names:
-        # Example fallback parse (simple split by comma)
-        fallback_names = [name.strip() for name in ai_text.split(",") if name.strip()]
-        if fallback_names:
-            return fallback_names
-
-    return color_names
-
-
-class ColorList(BaseModel):
-    colors: List[str]
-
-
+# Route handler: accepts POST with color list and returns creative names
 @app.post("/name-colors")
 async def name_colors(color_list: ColorList):
-    if not color_list.colors or len(color_list.colors) == 0:
+    # Basic validation — list must be non-empty
+    if not color_list.colors:
         raise HTTPException(status_code=400, detail="Colors list must not be empty.")
 
     try:
-        ai_response = await get_color_names_from_openrouter(color_list.colors)
-        color_names = extract_color_names(ai_response)
+        # Ask OpenRouter (GPT) for creative names
+        color_names = await get_color_names_from_openrouter(color_list.colors)
     except HTTPException:
-        # re-raise HTTPExceptions to be handled by FastAPI
-        raise
+        raise  # just rethrow if it’s already a handled FastAPI error
     except Exception as e:
-        # Catch any other unexpected error
+        # Catch any other unexpected issue
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
-    if not color_names:
-        raise HTTPException(status_code=502, detail="Failed to extract color names from AI response.")
-
+    # Return result as JSON
     return {"color_names": color_names}
