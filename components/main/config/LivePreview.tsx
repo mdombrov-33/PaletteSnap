@@ -1,6 +1,6 @@
 'use client'
 
-import { getReadableTextColor, isLight } from '@/utils/color-utils'
+import { getReadableTextColor, isLight } from '@/utils/colors'
 import { LivePreviewProps } from '@/types/types'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'

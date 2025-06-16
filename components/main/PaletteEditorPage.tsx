@@ -7,7 +7,7 @@ import PaletteConfig from './config/PaletteConfig'
 import LivePreview from './config/LivePreview'
 import ExportConfig from './config/ExportConfig'
 import ColorContrastCheck from './config/ColorContrastCheck'
-import { getSmartColorRoles } from '@/utils/color-utils'
+import { getSmartColorRoles } from '@/utils/colors'
 import { useEffect, useState } from 'react'
 import { FullColorRoles } from '@/types/types'
 

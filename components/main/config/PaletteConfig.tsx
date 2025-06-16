@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { PaletteConfigProps } from '@/types/types'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { generateRandomColor } from '@/utils/generate-random-colors'
+import { generateRandomColor } from '@/utils/colors/generate-random-color'
 import { FaSpinner } from 'react-icons/fa'
 
 function PaletteConfig({

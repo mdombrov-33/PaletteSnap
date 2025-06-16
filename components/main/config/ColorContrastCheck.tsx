@@ -1,5 +1,5 @@
 import React from 'react'
-import { getContrastRatio } from '@/utils/color-contrast/color-contrast'
+import { getContrastRatio } from '@/utils/colors'
 import { cn } from '@/lib/utils'
 import { AlertTriangle } from 'lucide-react'
 
