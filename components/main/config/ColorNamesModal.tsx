@@ -1,8 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { FaSpinner } from 'react-icons/fa'
+import { toast } from 'sonner'
+import { ColorNamesModalProps } from '@/types/types'
 
-export function ColorNamesModal({ colors, onClose }: { colors: string[]; onClose: () => void }) {
+export function ColorNamesModal({ colors, onClose }: Omit<ColorNamesModalProps, 'isOpen'>) {
   const [colorNames, setColorNames] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -28,63 +31,57 @@ export function ColorNamesModal({ colors, onClose }: { colors: string[]; onClose
     } catch (error) {
       console.error('Color name fetch failed:', error)
       setIsError(true)
+      toast.error('Failed to generate color names')
     } finally {
       setIsLoading(false)
     }
   }
 
+  // Close modal on ESC key press
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [onClose])
+
   return (
     <>
-      {/* Backdrop */}
+      {/* Modal panel only, no background */}
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-50"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Modal panel */}
-      <div
-        className="fixed inset-0 flex items-center justify-center z-50 p-4"
         role="dialog"
         aria-modal="true"
+        aria-labelledby="modal-title"
+        className="fixed inset-0 flex items-center justify-center z-50 p-4 pointer-events-none"
       >
         <div
-          className="bg-white rounded-md p-6 max-w-lg w-full shadow-lg"
-          style={{ backgroundColor: 'var(--background)', backgroundImage: 'none' }}
+          className="bg-white dark:bg-gray-900 rounded-md shadow-xl max-w-lg w-full p-6 text-left pointer-events-auto"
+          onClick={(e) => e.stopPropagation()} // prevent closing modal when clicking inside panel
+          style={{
+            backgroundColor: 'var(--background)',
+          }}
         >
-          <h2 className="text-lg font-semibold mb-4 text-card-foreground">Color Names</h2>
+          <h2 id="modal-title" className="text-lg font-semibold text-card-foreground mb-4">
+            Color Names
+          </h2>
 
-          <button
-            onClick={fetchColorNames}
-            disabled={isLoading}
-            className="text-primary underline hover:text-secondary text-sm focus:outline-none mb-4"
-          >
-            {isLoading ? 'Generating...' : 'Generate Color Names'}
-          </button>
+          <div className="mb-4">
+            <button
+              onClick={fetchColorNames}
+              disabled={isLoading}
+              className="text-primary underline hover:text-secondary text-sm focus:outline-none"
+            >
+              {isLoading ? 'Generating...' : 'Generate Color Names'}
+            </button>
+          </div>
 
           {isLoading ? (
             <div className="flex items-center justify-center h-32">
-              <svg
-                className="animate-spin text-primary w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
+              <FaSpinner
+                className="animate-spin text-xl text-primary"
                 aria-label="Loading spinner"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                />
-              </svg>
+              />
             </div>
           ) : isError ? (
             <p className="text-destructive text-sm text-center mt-4">
