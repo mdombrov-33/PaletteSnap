@@ -1,5 +1,22 @@
 module.exports = {
-  safelist: ['text-success', 'text-destructive'],
+  safelist: [
+    'text-success',
+    'text-destructive',
+
+    'grid-cols-1',
+    'lg:grid-cols-12',
+
+    'lg:col-span-2',
+    'lg:col-span-3',
+    'lg:col-span-4',
+
+    'md:mt-16',
+    'mt-20',
+    'mx-auto',
+    'px-4',
+
+    'gap-8',
+  ],
   content: ['./app/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
