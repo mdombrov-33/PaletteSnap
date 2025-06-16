@@ -44,7 +44,6 @@ export const metadata = {
   },
   authors: [{ name: 'Maksym Dombrov', url: 'https://github.com/mdombrov-33' }],
   creator: 'Maksym Dombrov',
-  themeColor: '#6d6bc1',
 }
 
 export default function RootLayout({
