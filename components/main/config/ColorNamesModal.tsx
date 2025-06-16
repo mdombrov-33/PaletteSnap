@@ -18,29 +18,29 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
-  // DEBUG: Log every render with key state info
-  console.log('[ColorNamesModal] Render:', { isOpen, colors, colorNames, isLoading, isError })
+  // Debug logging on each render
+  console.log('[ColorNamesModal] Render:', {
+    isOpen,
+    colors,
+    colorNames,
+    isLoading,
+    isError,
+  })
 
   useEffect(() => {
-    if (!isOpen) {
-      console.log('[ColorNamesModal] Modal closed, clearing state')
+    if (!isOpen || !Array.isArray(colors) || colors.length === 0) {
+      // Clear state when modal is closed or no colors
       setColorNames([])
       setIsLoading(false)
       setIsError(false)
+      console.log('[ColorNamesModal] Modal closed or no colors - cleared state')
       return
     }
 
-    if (!Array.isArray(colors) || colors.length === 0) {
-      console.log('[ColorNamesModal] No colors to fetch names for.')
+    async function fetchColorNames() {
       setColorNames([])
-      return
-    }
-
-    // We stringify colors array to create a stable dependency for useEffect
-    const fetchColorNames = async () => {
       setIsLoading(true)
       setIsError(false)
-      setColorNames([])
 
       try {
         console.log('[ColorNamesModal] Fetching color names for:', colors)
@@ -50,10 +50,21 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
           body: JSON.stringify({ colors }),
         })
 
-        if (!res.ok) throw new Error(`API error status: ${res.status}`)
+        if (!res.ok) {
+          throw new Error(`API returned status ${res.status}`)
+        }
 
         const data = await res.json()
         console.log('[ColorNamesModal] API response:', data)
+
+        if (
+          !data.color_names ||
+          !Array.isArray(data.color_names) ||
+          data.color_names.length === 0
+        ) {
+          throw new Error('No color names returned from API')
+        }
+
         setColorNames(data.color_names)
       } catch (error) {
         console.error('[ColorNamesModal] Fetch failed:', error)
@@ -65,7 +76,7 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
     }
 
     fetchColorNames()
-  }, [isOpen, JSON.stringify(colors)])
+  }, [isOpen, colors])
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -77,17 +88,6 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
             seconds depending on the number of colors.
           </DialogDescription>
         </DialogHeader>
-
-        {/* Debug UI */}
-        <div className="mb-2 text-xs text-muted-foreground">
-          <p>
-            <b>Debug info:</b>
-          </p>
-          <p>Colors array length: {colors.length}</p>
-          <p>Color names length: {colorNames.length}</p>
-          <p>Loading: {isLoading ? 'Yes' : 'No'}</p>
-          <p>Error: {isError ? 'Yes' : 'No'}</p>
-        </div>
 
         {isLoading ? (
           <div className="flex items-center justify-center h-32">
@@ -108,9 +108,10 @@ function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-center mt-4 text-muted-foreground">
-            No color names available yet.
-          </p>
+          // Show whatever partial or unexpected colorNames we have as JSON for debugging
+          <pre className="mt-4 p-2 bg-gray-100 rounded text-sm whitespace-pre-wrap">
+            {JSON.stringify(colorNames, null, 2)}
+          </pre>
         )}
 
         <DialogClose asChild>
