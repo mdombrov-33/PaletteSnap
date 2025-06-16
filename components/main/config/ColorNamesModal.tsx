@@ -6,7 +6,7 @@ import { FaSpinner } from 'react-icons/fa'
 import { toast } from 'sonner'
 import { ColorNamesModalProps } from '@/types/types'
 
-export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProps) {
+export function ColorNamesModal({ colors, onClose }: Omit<ColorNamesModalProps, 'isOpen'>) {
   const [colorNames, setColorNames] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
@@ -39,8 +39,8 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
   }
 
   return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+    <Transition appear as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose} static>
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"

@@ -79,7 +79,8 @@ function PaletteConfig({
         Copy All Colors
       </Button>
 
-      <ColorNamesModal colors={colors} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {/* Render modal only if open */}
+      {isModalOpen && <ColorNamesModal colors={colors} onClose={() => setIsModalOpen(false)} />}
     </div>
   )
 }
