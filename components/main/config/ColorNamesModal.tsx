@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, Fragment } from 'react'
+import { useState, Fragment } from 'react'
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { FaSpinner } from 'react-icons/fa'
 import { toast } from 'sonner'
@@ -11,36 +11,32 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
 
-  useEffect(() => {
-    if (!isOpen || !Array.isArray(colors) || colors.length === 0) return
+  async function fetchColorNames() {
+    if (!Array.isArray(colors) || colors.length === 0) return
 
-    async function fetchColorNames() {
-      setColorNames([])
-      setIsLoading(true)
-      setIsError(false)
+    setColorNames([])
+    setIsLoading(true)
+    setIsError(false)
 
-      try {
-        const res = await fetch('/api/name-colors', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ colors }),
-        })
+    try {
+      const res = await fetch('/api/name-colors', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ colors }),
+      })
 
-        if (!res.ok) throw new Error('Failed to fetch color names')
+      if (!res.ok) throw new Error('Failed to fetch color names')
 
-        const data = await res.json()
-        setColorNames(data.color_names)
-      } catch (error) {
-        console.error('Color name fetch failed:', error)
-        setIsError(true)
-        toast.error('Failed to generate color names')
-      } finally {
-        setIsLoading(false)
-      }
+      const data = await res.json()
+      setColorNames(data.color_names)
+    } catch (error) {
+      console.error('Color name fetch failed:', error)
+      setIsError(true)
+      toast.error('Failed to generate color names')
+    } finally {
+      setIsLoading(false)
     }
-
-    fetchColorNames()
-  }, [isOpen, colors])
+  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -70,11 +66,24 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
             >
               <DialogPanel
                 className="w-full max-w-lg transform overflow-hidden rounded-md p-6 text-left align-middle shadow-xl ring-1 ring-border transition-all"
-                style={{ backgroundColor: 'var(--background)', backgroundImage: 'none' }}
+                style={{
+                  backgroundColor: 'var(--background)',
+                  backgroundImage: 'none',
+                }}
               >
                 <DialogTitle className="text-lg font-semibold text-card-foreground">
                   Color Names
                 </DialogTitle>
+
+                <div className="mt-4">
+                  <button
+                    onClick={fetchColorNames}
+                    disabled={isLoading}
+                    className="text-primary underline hover:text-secondary text-sm focus:outline-none"
+                  >
+                    {isLoading ? 'Generating...' : 'Generate Color Names'}
+                  </button>
+                </div>
 
                 {isLoading ? (
                   <div className="flex items-center justify-center h-32">
@@ -87,7 +96,7 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
                   <p className="text-destructive text-sm text-center mt-4">
                     Failed to fetch color names.
                   </p>
-                ) : (
+                ) : colorNames.length > 0 ? (
                   <ul className="space-y-2 mt-4 max-h-60 overflow-y-auto text-card-foreground">
                     {colorNames.map((name, i) => (
                       <li key={i} className="flex items-center gap-2">
@@ -100,11 +109,11 @@ export function ColorNamesModal({ colors, isOpen, onClose }: ColorNamesModalProp
                       </li>
                     ))}
                   </ul>
-                )}
+                ) : null}
 
                 <button
                   type="button"
-                  onClick={() => onClose()}
+                  onClick={onClose}
                   className="mt-6 w-full text-sm underline text-primary hover:text-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
                 >
                   Close
