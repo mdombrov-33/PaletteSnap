@@ -44,7 +44,7 @@ Let AI name your palette colors with style. No more “blue-500” — how about
 
 ## 🧪 How It Works (Under the Hood)
 
-1. **Upload** an image — we extract its most prominent colors.  
+1. **Upload** an image — We extract its most prominent colors.  
 2. **Role Assignment** — Colors are analyzed and assigned based on contrast and luminance:  
    - `background`: lightest/darkest/most neutral color 
    - `primary`: dominant or accent color  
