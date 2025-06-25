@@ -16,7 +16,7 @@ Use it to:
 ## ⚙️ Key Features
 
 ✅ **Automatic Color Extraction**  
-Upload any image — PaletteSnap extracts and displays its top colors.
+Upload any image - PaletteSnap extracts and displays its top colors.
 
 🎨 **Semantic Role Assignment**  
 Colors are automatically assigned meaningful roles based on luminance and visual weight:  
@@ -38,20 +38,20 @@ Export your palette as:
 - JSON structure for any app
 
 🤖 **(Optional) AI Color Naming**  
-Let AI name your palette colors with style. No more “blue-500” — how about “Ocean Breeze”?
+Let AI name your palette colors with style. No more “blue-500” - how about “Ocean Breeze”?
 
 ---
 
 ## 🧪 How It Works (Under the Hood)
 
-1. **Upload** an image — We extract its most prominent colors.  
-2. **Role Assignment** — Colors are analyzed and assigned based on contrast and luminance:  
+1. **Upload** an image - We extract its most prominent colors.  
+2. **Role Assignment** - Colors are analyzed and assigned based on contrast and luminance:  
    - `background`: lightest/darkest/most neutral color 
    - `primary`: dominant or accent color  
    - `foreground`: multiple text/UI-friendly values  
-3. **User Tweak Zone** — Adjust any role and the rest of the system recalibrates.  
-4. **Live Accessibility Check** — Realtime WCAG AA/AAA contrast checks for primary and all foregrounds.  
-5. **Export & Ship** — Grab code snippets and paste into your project.
+3. **User Tweak Zone** - Adjust any role and the rest of the system recalibrates.  
+4. **Live Accessibility Check** - Realtime WCAG AA/AAA contrast checks for primary and all foregrounds.  
+5. **Export & Ship** - Grab code snippets and paste into your project.
 
 ---
 
